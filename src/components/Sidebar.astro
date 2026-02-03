@@ -1,0 +1,78 @@
+---
+const menuItems = [
+  { icon: 'fas fa-tasks', label: 'All Tasks', count: 12, active: true },
+  { icon: 'fas fa-calendar-day', label: 'Today', count: 3 },
+  { icon: 'fas fa-calendar-week', label: 'Upcoming', count: 5 },
+  { icon: 'fas fa-flag', label: 'Important', count: 4 },
+  { icon: 'fas fa-check-circle', label: 'Completed', count: 24 },
+  { icon: 'fas fa-trash', label: 'Trash', count: 2 }
+];
+
+const projects = [
+  { name: 'Website Redesign', color: 'bg-blue-500' },
+  { name: 'Mobile App', color: 'bg-green-500' },
+  { name: 'Marketing Campaign', color: 'bg-purple-500' },
+  { name: 'Client Reports', color: 'bg-yellow-500' }
+];
+---
+
+<aside class="w-64 bg-gradient-to-b from-violet-950 to-purple-950 text-white min-h-screen">
+  <div class="p-6">
+    <div class="flex items-center space-x-3 mb-8">
+      <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+        <i class="fas fa-check-double text-xl"></i>
+      </div>
+      <div>
+        <h2 class="text-xl font-bold">TaskFlow</h2>
+        <p class="text-gray-400 text-sm">Productivity Pro</p>
+      </div>
+    </div>
+
+    <div class="mb-8">
+      <h3 class="text-gray-400 text-sm font-semibold uppercase tracking-wider mb-4">Menu</h3>
+      <nav>
+        {menuItems.map(item => (
+          <a href="#" class={`flex items-center justify-between py-3 px-4 rounded-lg mb-1 transition duration-200 ${item.active ? 'bg-blue-600 text-white' : 'hover:bg-gray-800 text-gray-300'}`}>
+            <div class="flex items-center">
+              <i class={`${item.icon} mr-3 ${item.active ? 'text-white' : 'text-gray-400'}`}></i>
+              <span>{item.label}</span>
+            </div>
+            <span class="bg-gray-800 text-gray-300 text-xs px-2 py-1 rounded-full">
+              {item.count}
+            </span>
+          </a>
+        ))}
+      </nav>
+    </div>
+
+    <div class="mb-8">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-gray-400 text-sm font-semibold uppercase tracking-wider">Projects</h3>
+        <button class="text-gray-400 hover:text-white">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+      <div class="space-y-2">
+        {projects.map(project => (
+          <div class="flex items-center py-2 px-4 rounded-lg hover:bg-gray-800 cursor-pointer">
+            <div class={`w-3 h-3 ${project.color} rounded-full mr-3`}></div>
+            <span class="text-gray-300">{project.name}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="mt-auto">
+      <div class="bg-gray-800 rounded-xl p-4">
+        <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-3">
+          <i class="fas fa-trophy text-xl"></i>
+        </div>
+        <h4 class="text-center font-semibold">Daily Goal</h4>
+        <p class="text-gray-400 text-sm text-center mb-3">8 of 10 tasks completed</p>
+        <div class="w-full bg-gray-700 rounded-full h-2">
+          <div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</aside>

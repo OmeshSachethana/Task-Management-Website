@@ -1,0 +1,154 @@
+---
+const { task } = Astro.props;
+const priorityColors = {
+  high: 'bg-red-500',
+  medium: 'bg-yellow-500',
+  low: 'bg-green-500'
+};
+
+const priorityIcons = {
+  high: 'fas fa-exclamation-circle',
+  medium: 'fas fa-minus-circle',
+  low: 'fas fa-arrow-down-circle'
+};
+---
+
+<div class="task-item bg-white rounded-xl border border-gray-200 p-4 mb-4 hover:shadow-md transition duration-200">
+  <div class="flex items-start justify-between">
+    <div class="flex items-start space-x-3">
+      <button 
+        class="task-toggle w-6 h-6 rounded-full border-2 ${task.completed ? 'bg-blue-500 border-blue-500' : 'border-gray-300'} flex items-center justify-center mt-1"
+        data-task-id={task.id}
+      >
+        {task.completed && <i class="fas fa-check text-white text-xs"></i>}
+      </button>
+      
+      <div class="flex-1">
+        <h4 class="task-title font-medium ${task.completed ? 'text-gray-400 line-through' : 'text-gray-800'}">
+          {task.title}
+        </h4>
+        <p class="task-description text-gray-500 text-sm mt-1">{task.description}</p>
+        
+        <div class="flex items-center space-x-4 mt-3">
+          <div class="flex items-center">
+            <i class="far fa-calendar text-gray-400 mr-2"></i>
+            <span class="text-sm text-gray-600">{task.dueDate}</span>
+          </div>
+          
+          <div class="flex items-center">
+            <i class="fas fa-tag text-gray-400 mr-2"></i>
+            <span class="text-sm text-gray-600">{task.project}</span>
+          </div>
+          
+          <div class="flex items-center">
+            <i class="${priorityIcons[task.priority]} ${task.priority === 'high' ? 'text-red-500' : task.priority === 'medium' ? 'text-yellow-500' : 'text-green-500'} mr-2"></i>
+            <span class="priority-badge text-sm font-medium capitalize ${task.priority === 'high' ? 'text-red-600' : task.priority === 'medium' ? 'text-yellow-600' : 'text-green-600'}" data-priority={task.priority}>
+              {task.priority} Priority
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="flex items-center space-x-2">
+      <button class="favorite-btn w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-500" data-task-id={task.id}>
+        <i class="far fa-star"></i>
+      </button>
+      <button class="edit-btn w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-500" data-task-id={task.id}>
+        <i class="fas fa-edit"></i>
+      </button>
+      <button class="delete-btn w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-500" data-task-id={task.id}>
+        <i class="fas fa-trash"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Task item interactivity
+  document.addEventListener('DOMContentLoaded', () => {
+    // Toggle task completion
+    document.querySelectorAll('.task-toggle').forEach(button => {
+      button.addEventListener('click', function() {
+        const taskId = this.dataset.taskId;
+        const taskItem = this.closest('.task-item');
+        const isCompleted = this.classList.contains('bg-blue-500');
+        
+        // Toggle UI
+        if (isCompleted) {
+          this.classList.remove('bg-blue-500', 'border-blue-500');
+          this.classList.add('border-gray-300');
+          this.innerHTML = '';
+          taskItem.querySelector('.task-title').classList.remove('text-gray-400', 'line-through');
+        } else {
+          this.classList.remove('border-gray-300');
+          this.classList.add('bg-blue-500', 'border-blue-500');
+          this.innerHTML = '<i class="fas fa-check text-white text-xs"></i>';
+          taskItem.querySelector('.task-title').classList.add('text-gray-400', 'line-through');
+        }
+        
+        // Update task stats
+        updateTaskStats();
+      });
+    });
+    
+    // Favorite task
+    document.querySelectorAll('.favorite-btn').forEach(button => {
+      button.addEventListener('click', function() {
+        const icon = this.querySelector('i');
+        if (icon.classList.contains('far')) {
+          icon.classList.remove('far');
+          icon.classList.add('fas', 'text-yellow-500');
+        } else {
+          icon.classList.remove('fas', 'text-yellow-500');
+          icon.classList.add('far');
+        }
+      });
+    });
+    
+    // Delete task
+    document.querySelectorAll('.delete-btn').forEach(button => {
+      button.addEventListener('click', function() {
+        const taskId = this.dataset.taskId;
+        const taskItem = this.closest('.task-item');
+        
+        if (confirm('Are you sure you want to delete this task?')) {
+          taskItem.style.opacity = '0';
+          taskItem.style.transform = 'translateX(-20px)';
+          
+          setTimeout(() => {
+            taskItem.remove();
+            updateTaskStats();
+          }, 300);
+        }
+      });
+    });
+    
+    // Edit task (simplified - would open a form in real app)
+    document.querySelectorAll('.edit-btn').forEach(button => {
+      button.addEventListener('click', function() {
+        const taskId = this.dataset.taskId;
+        const taskItem = this.closest('.task-item');
+        const title = taskItem.querySelector('.task-title').textContent;
+        
+        const newTitle = prompt('Edit task title:', title);
+        if (newTitle) {
+          taskItem.querySelector('.task-title').textContent = newTitle;
+        }
+      });
+    });
+    
+    function updateTaskStats() {
+      // Update stats counters
+      const totalTasks = document.querySelectorAll('.task-item').length;
+      const completedTasks = document.querySelectorAll('.task-toggle.bg-blue-500').length;
+      
+      // Update UI counters if they exist
+      const totalCounter = document.querySelector('#totalTasksCounter');
+      const completedCounter = document.querySelector('#completedTasksCounter');
+      
+      if (totalCounter) totalCounter.textContent = totalTasks;
+      if (completedCounter) completedCounter.textContent = completedTasks;
+    }
+  });
+</script>
