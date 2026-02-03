@@ -1,0 +1,78 @@
+---
+import TaskItem from './TaskItem.astro';
+
+const tasks = [
+  {
+    id: 1,
+    title: 'Design Homepage Mockup',
+    description: 'Create wireframes and design for new homepage layout',
+    dueDate: 'Today, 5:00 PM',
+    priority: 'high',
+    project: 'Website Redesign',
+    completed: false,
+    tags: ['Design', 'UI/UX']
+  },
+  {
+    id: 2,
+    title: 'Team Meeting Preparation',
+    description: 'Prepare agenda and presentation for weekly team sync',
+    dueDate: 'Tomorrow, 10:00 AM',
+    priority: 'medium',
+    project: 'General',
+    completed: false,
+    tags: ['Meeting', 'Planning']
+  },
+  {
+    id: 3,
+    title: 'Update Documentation',
+    description: 'Update API documentation with new endpoints',
+    dueDate: 'Dec 15, 2024',
+    priority: 'low',
+    project: 'Mobile App',
+    completed: true,
+    tags: ['Docs', 'Technical']
+  },
+  {
+    id: 4,
+    title: 'Client Proposal Review',
+    description: 'Review and finalize proposal for new client project',
+    dueDate: 'Today, 3:00 PM',
+    priority: 'high',
+    project: 'Marketing Campaign',
+    completed: false,
+    tags: ['Client', 'Business']
+  },
+  {
+    id: 5,
+    title: 'Bug Fix - Login Issue',
+    description: 'Fix authentication bug reported by users',
+    dueDate: 'Dec 18, 2024',
+    priority: 'medium',
+    project: 'Mobile App',
+    completed: false,
+    tags: ['Bug', 'Technical']
+  }
+];
+---
+
+<div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+  <div class="flex justify-between items-center mb-6">
+    <h3 class="text-xl font-bold text-gray-800">Recent Tasks</h3>
+    <button class="text-blue-600 hover:text-blue-700 font-medium flex items-center">
+      <i class="fas fa-plus mr-2"></i>Add New Task
+    </button>
+  </div>
+  
+  <div class="space-y-4">
+    {tasks.map(task => (
+      <TaskItem task={task} />
+    ))}
+  </div>
+  
+  <div class="mt-6 pt-6 border-t border-gray-200 flex justify-between items-center">
+    <p class="text-gray-500 text-sm">Showing 5 of 42 tasks</p>
+    <button class="text-blue-600 hover:text-blue-700 font-medium">
+      View All Tasks <i class="fas fa-arrow-right ml-2"></i>
+    </button>
+  </div>
+</div>

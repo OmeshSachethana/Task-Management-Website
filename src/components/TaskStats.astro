@@ -1,0 +1,28 @@
+---
+const stats = [
+  { label: 'Total Tasks', value: '42', icon: 'fas fa-tasks', color: 'bg-blue-500', change: '+12%' },
+  { label: 'Completed', value: '24', icon: 'fas fa-check-circle', color: 'bg-green-500', change: '+8%' },
+  { label: 'Pending', value: '12', icon: 'fas fa-clock', color: 'bg-yellow-500', change: '-3%' },
+  { label: 'Overdue', value: '6', icon: 'fas fa-exclamation-circle', color: 'bg-red-500', change: '+2%' }
+];
+---
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+  {stats.map(stat => (
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm mb-2">{stat.label}</p>
+          <p class="text-3xl font-bold text-gray-800">{stat.value}</p>
+          <p class={`text-sm mt-2 ${stat.change.startsWith('+') ? 'text-green-600' : 'text-red-600'}`}>
+            <i class={`fas fa-arrow-${stat.change.startsWith('+') ? 'up' : 'down'} mr-1`}></i>
+            {stat.change} from last week
+          </p>
+        </div>
+        <div class={`${stat.color} w-12 h-12 rounded-xl flex items-center justify-center`}>
+          <i class={`${stat.icon} text-white text-xl`}></i>
+        </div>
+      </div>
+    </div>
+  ))}
+</div>

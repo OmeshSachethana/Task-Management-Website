@@ -1,11 +1,58 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Layout from "../layouts/Layout.astro";
+import TaskStats from "../components/TaskStats.astro";
+import TaskFilters from "../components/TaskFilters.astro";
+import TaskList from "../components/TaskList.astro";
+import TaskForm from "../components/TaskForm.astro";
 ---
 
 <Layout>
-	<Welcome />
+  <div class="max-w-7xl mx-auto">
+    <TaskStats />
+    <TaskFilters />
+    
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div class="lg:col-span-2">
+        <!-- Task List Container -->
+        <div id="taskListSection" class="task-list-container">
+          <TaskList />
+        </div>
+        
+        <!-- Recent Activity -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mt-6">
+          <h3 class="text-xl font-bold text-gray-800 mb-6">Recent Activity</h3>
+          <div class="space-y-4">
+            <!-- Activity items -->
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        <!-- Task Form Section -->
+        <div id="taskFormSection">
+          <TaskForm />
+        </div>
+        
+        <!-- Upcoming Deadlines -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mt-6">
+          <h3 class="text-xl font-bold text-gray-800 mb-6">Upcoming Deadlines</h3>
+          <div class="space-y-4">
+            <!-- Deadline items -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Include the Task Manager JavaScript -->
+  <script>
+    // Check if taskManager is already loaded
+    if (!window.taskManager) {
+      // Load the task manager script
+      const script = document.createElement('script');
+      script.src = '/js/taskManager.js';
+      script.type = 'module';
+      document.head.appendChild(script);
+    }
+  </script>
 </Layout>
